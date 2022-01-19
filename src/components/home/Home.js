@@ -9,7 +9,7 @@ const Home = ({ user, setUser }) => {
 
   const handleLogout = () => {
     axios
-      .get('http://localhost:4000/logout', { withCredentials: true })
+      .get('/logout')
       .then(({ data: { user } }) => {
         setUser(null);
         navigate('/login');

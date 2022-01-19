@@ -15,11 +15,7 @@ const Login = ({ setUser }) => {
     const { username, password } = form;
 
     axios
-      .post(
-        'http://localhost:4000/login',
-        { username, password },
-        { withCredentials: true },
-      )
+      .post('/login', { username, password })
       .then(({ data: { user } }) => {
         setUser(user);
         navigate('/');

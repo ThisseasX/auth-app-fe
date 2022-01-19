@@ -11,7 +11,7 @@ export const withAuth = (Component) => (props) => {
   useEffect(() => {
     if (!user) {
       axios
-        .post('http://localhost:4000/verifyToken', null, { withCredentials: true })
+        .post('/verifyToken')
         .then(({ data: { user } }) => {
           setUser(user);
           setLoading(false);
@@ -25,6 +25,7 @@ export const withAuth = (Component) => (props) => {
     } else {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return !loading && user ? <Component {...props} /> : <div>Loading...</div>;
