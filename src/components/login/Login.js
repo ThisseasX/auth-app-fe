@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Box, Paper, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = ({ setUser }) => {
   const [form, updateForm] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (key) => (e) => {
     updateForm((form) => ({ ...form, [key]: e.target.value }));
@@ -12,11 +14,20 @@ const Login = ({ setUser }) => {
   const handleLogin = () => {
     const { username, password } = form;
 
-    axios.post(
-      'http://localhost:4000/login',
-      { username, password },
-      { withCredentials: true },
-    );
+    axios
+      .post(
+        'http://localhost:4000/login',
+        { username, password },
+        { withCredentials: true },
+      )
+      .then(({ data: { user } }) => {
+        setUser(user);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.error(err);
+        setUser(null);
+      });
   };
 
   return (
@@ -28,7 +39,13 @@ const Login = ({ setUser }) => {
         justifyContent: 'center',
       }}
     >
-      <Box p={2} display={'flex'} flexDirection={'column'} component={Paper}>
+      <Box
+        p={2}
+        width={320}
+        display={'flex'}
+        flexDirection={'column'}
+        component={Paper}
+      >
         <TextField
           size="small"
           label="username"
